@@ -1,0 +1,10 @@
+version: 2
+
+models:
+  - name: learn_duplicate_order
+    config:
+      enabled: false
+    columns:
+      - name: order_id
+        data_tests:
+          - unique

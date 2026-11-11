@@ -1,0 +1,25 @@
+version: 2
+models:
+  - name: stg_ec__products
+    columns:
+      - name: product_id
+        data_type: bigint
+        data_tests:
+          - unique
+          - not_null
+      - name: product_name
+        data_type: text
+      - name: category_id
+        data_type: bigint
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_ec__categories')
+                field: category_id
+      - name: base_price
+        data_type: numeric(10,2)
+      - name: created_at
+        data_type: timestamp with time zone
+      - name: updated_at
+        data_type: timestamp with time zone

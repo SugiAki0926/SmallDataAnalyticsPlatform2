@@ -1,0 +1,23 @@
+services:
+  dbt:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: dap2-dbt
+    container_name: dap2-dbt
+    working_dir: /workspaces/SmallDataAnalyticsPlatform2
+    volumes:
+      - ../..:/workspaces/SmallDataAnalyticsPlatform2
+    env_file:
+      - ../../.env
+    environment:
+      TZ: ${TZ:-Asia/Tokyo}
+      DBT_PROFILES_DIR: /workspaces/SmallDataAnalyticsPlatform2/transform/dap2/profile
+    command: sleep infinity
+    networks:
+      - dap2
+
+networks:
+  dap2:
+    external: true
+    name: dap2

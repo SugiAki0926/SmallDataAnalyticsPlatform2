@@ -1,13 +1,35 @@
+# シークレット
 .env
+.env.*
+!.env.example
+**/.user.yml
+*.pem
+*.key
+credentials.json
+secrets.json
+
+# ログ
 logs/
 *.log
-.DS_Store
 
-__pycache__/
-*.pyc
+# dbt の生成物。docs generate の HTML も target/ に出る
+**/target/
+**/dbt_packages/
+**/logs/
 
-dbt/**/target/
-dbt/**/dbt_packages/
-dbt/**/logs/
-
+# ドキュメント。
 docs/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# OS / エディタ
+.vscode/
+.cursor/
+.DS_Store
+.idea/
+*.swp
+*~

@@ -1,0 +1,43 @@
+name: 'dap2'
+version: '1.0.0'
+
+profile: 'dap2'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:         # directories to be removed by `dbt clean`
+  - "target"
+  - "dbt_packages"
+
+
+models:
+  dap2:
+    staging:
+      +schema: staging
+      +materialized: view
+      +dbt-osmosis: "{model}.yml"
+    fact:
+      +schema: fact
+      +materialized: table
+      +dbt-osmosis: "{model}.yml"
+    dim:
+      +schema: dim
+      +materialized: table
+      +dbt-osmosis: "{model}.yml"
+    mart:
+      +schema: mart
+      +materialized: table
+      +dbt-osmosis: "{model}.yml"
+seeds:
+  dap2:
+    +schema: seeds
+    category_reporting_groups:
+      +column_types:
+        category_id: bigint
+        category_name: text
+        reporting_group: text

@@ -1,0 +1,15 @@
+version: 2
+models:
+  - name: stg_ec__categories
+    columns:
+      - name: category_id
+        data_type: bigint
+        data_tests:
+          - unique
+          - not_null
+      - name: category_name
+        data_type: text
+      - name: created_at
+        data_type: timestamp with time zone
+      - name: updated_at
+        data_type: timestamp with time zone

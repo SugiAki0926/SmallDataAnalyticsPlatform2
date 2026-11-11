@@ -1,0 +1,18 @@
+version: 2
+
+exposures:
+  - name: ec_sales_learning_report
+    label: EC売上学習レポート
+    type: analysis
+    maturity: low
+    url: "docs/ec_sales_learning_report.md"
+    description: |
+      リポジトリの docs/ec_sales_learning_report.md。
+      日次、商品別、顧客別、集計グループ別の Mart を読む。
+    depends_on:
+      - ref('mart_daily_sales')
+      - ref('mart_product_sales')
+      - ref('mart_customer_sales')
+      - ref('mart_sales_by_reporting_group')
+    owner:
+      name: sugiaki

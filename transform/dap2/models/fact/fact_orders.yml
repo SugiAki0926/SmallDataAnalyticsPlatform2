@@ -1,0 +1,41 @@
+version: 2
+
+models:
+  - name: fact_orders
+    description: |
+      注文1行のファクト。注文金額は quantity * unit_price。
+      増分は新しい order_id だけを取り込む。
+    columns:
+      - name: order_id
+        description: 注文の識別子。1注文1行。
+      - name: order_amount
+        description: その注文の売上。quantity * unit_price。カタログの現在価格は使わない。
+
+unit_tests:
+  - name: test_fact_orders_amount
+    model: fact_orders
+    overrides:
+      macros:
+        is_incremental: false
+    given:
+      - input: ref('stg_ec__orders')
+        rows:
+          - {order_id: 1, customer_id: 10, product_id: 100, quantity: 2, unit_price: 120, ordered_at: "2026-01-01 06:00:00+09", order_date: "2026-01-01"}
+          - {order_id: 2, customer_id: 10, product_id: 200, quantity: 1, unit_price: 80, ordered_at: "2026-01-02 06:00:00+09", order_date: "2026-01-02"}
+          - {order_id: 3, customer_id: 11, product_id: 100, quantity: 3, unit_price: 10, ordered_at: "2026-01-03 06:00:00+09", order_date: "2026-01-03"}
+      - input: ref('stg_ec__products')
+        rows:
+          - {product_id: 100, product_name: "Tea", category_id: 5}
+          - {product_id: 200, product_name: "Mug", category_id: 5}
+      - input: ref('stg_ec__customers')
+        rows:
+          - {customer_id: 10, customer_name: "Alice"}
+          - {customer_id: 11, customer_name: "Bob"}
+      - input: ref('stg_ec__categories')
+        rows:
+          - {category_id: 5, category_name: "Drink"}
+    expect:
+      rows:
+        - {order_id: 1, customer_name: "Alice", product_name: "Tea", category_name: "Drink", quantity: 2, unit_price: 120, order_amount: "240.00"}
+        - {order_id: 2, customer_name: "Alice", product_name: "Mug", category_name: "Drink", quantity: 1, unit_price: 80, order_amount: "80.00"}
+        - {order_id: 3, customer_name: "Bob", product_name: "Tea", category_name: "Drink", quantity: 3, unit_price: 10, order_amount: "30.00"}

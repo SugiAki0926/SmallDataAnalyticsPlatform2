@@ -1,0 +1,56 @@
+name: dap2
+
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      TZ: Asia/Tokyo
+      PGTZ: Asia/Tokyo
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    command:
+      [
+        "postgres",
+        "-c", "timezone=Asia/Tokyo",
+        "-c", "log_timezone=Asia/Tokyo",
+        "-c", "port=${POSTGRES_PORT}",
+      ]
+    ports:
+      - "127.0.0.1:${POSTGRES_PUBLISH_PORT}:${POSTGRES_PORT}"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./postgres/init:/docker-entrypoint-initdb.d:ro
+    networks:
+      - dap2
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -h 127.0.0.1 -p ${POSTGRES_PORT} -U $$POSTGRES_USER -d ${POSTGRES_DB}" ]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  generator:
+    build: ./generator
+    image: dap2-generator
+    environment:
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      ORDER_COUNT: ${ORDER_COUNT:-10}
+      PRICE_UPDATES: ${PRICE_UPDATES:-1}
+      FLASH_SALE_ORDERS: ${FLASH_SALE_ORDERS:-0}
+    networks:
+      - dap2
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  pgdata:
+    name: dap2_pgdata
+
+networks:
+  dap2:
+    name: dap2

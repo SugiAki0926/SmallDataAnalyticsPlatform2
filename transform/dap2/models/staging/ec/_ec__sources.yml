@@ -1,0 +1,10 @@
+version: 2
+sources:
+  - name: ec
+    schema: lake
+    tables:
+      - name: categories
+      - name: products
+      - name: customers
+      - name: orders
+      - name: product_catalog

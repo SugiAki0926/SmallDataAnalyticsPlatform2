@@ -1,0 +1,17 @@
+version: 2
+models:
+  - name: stg_ec__customers
+    columns:
+      - name: customer_id
+        data_type: bigint
+        data_tests:
+          - unique
+          - not_null
+      - name: customer_name
+        data_type: text
+      - name: customer_country
+        data_type: text
+      - name: created_at
+        data_type: timestamp with time zone
+      - name: updated_at
+        data_type: timestamp with time zone

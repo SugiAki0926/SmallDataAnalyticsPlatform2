@@ -1,0 +1,15 @@
+version: 2
+models:
+  - name: stg_ec__product_catalog
+    columns:
+      - name: product_id
+        data_type: bigint
+        data_tests:
+          - unique
+          - not_null
+      - name: current_price
+        data_type: numeric(10,2)
+      - name: created_at
+        data_type: timestamp with time zone
+      - name: updated_at
+        data_type: timestamp with time zone

@@ -1,0 +1,28 @@
+version: 2
+
+models:
+  - name: mart_daily_sales
+    description: |
+      JST日付ごとの注文件数、販売数量、売上、平均注文額。
+      1行は order_date の1日。注文が無い日の行は作らない。
+    config:
+      contract:
+        enforced: true
+    columns:
+      - name: order_date
+        data_type: date
+        description: 注文時刻を Asia/Tokyo で日付にした日。1行が1日。
+      - name: cnt_orders
+        data_type: bigint
+        description: その日の注文件数。count(*)。数量とは別。
+      - name: sum_quantity
+        data_type: bigint
+        description: その日の販売数量。sum(quantity)。
+      - name: sum_order_amount
+        data_type: numeric
+        description: |
+          その日の売上。fact_orders.order_amount の合計。
+          注文の unit_price と同じ単位で、通貨コードは持たない。
+      - name: avg_order_amount
+        data_type: numeric
+        description: その日の平均注文額。注文1件あたりの order_amount の平均。

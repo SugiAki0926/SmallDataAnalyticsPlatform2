@@ -1,0 +1,19 @@
+version: 2
+
+seeds:
+  - name: category_reporting_groups
+    columns:
+      - name: category_id
+        data_tests:
+          - unique
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_ec__categories')
+                field: category_id
+      - name: category_name
+        data_tests:
+          - not_null
+      - name: reporting_group
+        data_tests:
+          - not_null
