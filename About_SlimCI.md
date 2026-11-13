@@ -655,3 +655,8 @@ There are 1 unused configuration paths:
 環境依存の定義差がなければ、こちらも0件になる。
 
 ## 参考資料
+
+- [Best practices for workflows](https://docs.getdbt.com/best-practices/best-practice-workflows?)
+- [Get started with Continuous Integration tests](https://docs.getdbt.com/guides/set-up-ci?step=2&)
+- [Defer](https://docs.getdbt.com/reference/node-selection/defer)
+- [Continuous integration in dbt](https://docs.getdbt.com/docs/deploy/continuous-integration)
