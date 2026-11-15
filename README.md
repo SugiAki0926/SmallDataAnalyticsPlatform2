@@ -41,7 +41,7 @@ sh ./run_daily.sh
 ```bash
 crontab -e
 
-* * * * * /bin/sh /絶対パス/SmallDataAnalyticsPlatform2/run_daily.sh
+* * * * * /bin/sh /<abs_path>/SmallDataAnalyticsPlatform2/run_daily.sh
 ```
 
 ## Docker コマンド関連

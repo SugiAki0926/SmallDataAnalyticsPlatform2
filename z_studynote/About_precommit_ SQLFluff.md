@@ -1,8 +1,8 @@
-# precommitで品質を高める
+# pre-commitで品質を高める
 
 ## 目的
 
-ここでは、dbtのSQLをSQLFluffで検査し、その検査をGitのコミット直前に実行するprecommitを学ぶ。このリポジトリではDevContainer作成時に入れ利用にしている。`pre-commit install`も動くので、`.git/hooks/pre-commit`も作られる。
+ここでは、dbtのSQLをSQLFluffで検査し、その検査をGitのコミット直前に実行するpre-commitを学ぶ。このリポジトリではDevContainer作成時に入れ利用にしている。`pre-commit install`も動くので、`.git/hooks/pre-commit`も作られる。
 
 ```
 # sqlfluff --version
@@ -127,9 +127,9 @@ All Finished 📜 🎉!
 ```
 
 
-## precommit
+## pre-commit
 
-precommitはそもそsqlfluffとは直接的に関係はない。gitのコミット時に自動で動かす仕組みのこと。commitは開発で必ず実行するので、そのときにlinter/formmaterを実行すれば品質を担保しやすい。
+pre-commitはそもそsqlfluffとは直接的に関係はない。gitのコミット時に自動で動かす仕組みのこと。commitは開発で必ず実行するので、そのときにlinter/formmaterを実行すれば品質を担保しやすい。
 
 まずは設定ファイルをリポジトリのルートに `.pre-commit-config.yaml` を作り、次の内容にする。
 
@@ -160,9 +160,12 @@ repos:
       - id: ruff-format # Pythonの見た目を整形する
 ```
 
-`pre-commit run`でprecommitが動くかどうか確認しておく。
+`pre-commit run`でpre-commitが動くかどうか確認しておく。
 
 ```
+# pre-commit run sqlfluff-lint --files transform/dap2/models/fact/fact_orders.sql
+SQLFluff lint........................................(no files to check)Skipped
+
 # pre-commit run --all-files
 SQLFluff lint............................................................Passed
 check yaml...............................................................Passed
@@ -171,6 +174,7 @@ trim trailing whitespace.................................................Passed
 fix requirements.txt.....................................................Passed
 ruff check...............................................................Passed
 ruff format..............................................................Passed
+
 ```
 
 問題なく動いていることがわかる。これで`git commit`の際に下記のように動く。
