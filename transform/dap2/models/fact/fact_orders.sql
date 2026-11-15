@@ -24,7 +24,7 @@ select
     categories.category_name,
     orders.quantity,
     orders.unit_price,
-    {{ order_amount("orders.quantity", "orders.unit_price") }}* 1 as order_amount,
+    {{ order_amount("orders.quantity", "orders.unit_price") }}* 1.0 as order_amount,
     orders.ordered_at,
     orders.order_date
 from orders
