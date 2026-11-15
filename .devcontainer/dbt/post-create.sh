@@ -1,14 +1,25 @@
 #!/usr/bin/env bash
-# 依存の確認だけを行う。dbt init やモデル作成はしない。
+# uv sync で Python 依存を入れ、dbt deps と pre-commit を有効化する。
+# dbt deps（codegen 等）は dbt パッケージであり、uv の対象ではない。
 set -euo pipefail
+
+cd /workspaces/SmallDataAnalyticsPlatform2
+
+uv sync
+
+export PATH="/workspaces/SmallDataAnalyticsPlatform2/.venv/bin:${PATH}"
 
 echo "python=$(command -v python)"
 python --version
 echo "dbt=$(command -v dbt)"
 dbt --version
 
-# 既存プロジェクトの transform/dap_dbt があるときだけ、その依存を入れる。
-if [ -d transform/dap_dbt ]; then
-  cd transform/dap_dbt
-  uv sync
-fi
+cd /workspaces/SmallDataAnalyticsPlatform2/transform/dap2
+dbt deps
+
+cd /workspaces/SmallDataAnalyticsPlatform2
+echo "pre-commit=$(command -v pre-commit)"
+pre-commit --version
+pre-commit install
+echo "sqlfluff=$(command -v sqlfluff)"
+sqlfluff --version
