@@ -2,7 +2,7 @@
 
 ## 目的
 
-ここでは、dbtのSQLをSQLFluffで検査し、その検査をGitのコミット直前に実行するprecommitを学ぶ。このリポジトリではDevContainer作成時に入れ利用にしている。
+ここでは、dbtのSQLをSQLFluffで検査し、その検査をGitのコミット直前に実行するprecommitを学ぶ。このリポジトリではDevContainer作成時に入れ利用にしている。`pre-commit install`も動くので、`.git/hooks/pre-commit`も作られる。
 
 ```
 # sqlfluff --version
@@ -173,4 +173,33 @@ ruff check...............................................................Passed
 ruff format..............................................................Passed
 ```
 
-問題なく動いていることがわかる。これで`git commit`の際に
+問題なく動いていることがわかる。これで`git commit`の際に下記のように動く。
+
+```
+# git add .
+# git commit -m 'fix'
+[INFO] Initializing environment for https://github.com/sqlfluff/sqlfluff.
+[INFO] Initializing environment for https://github.com/sqlfluff/sqlfluff:sqlfluff-templater-dbt==4.5.0,dbt-core==1.12.6,dbt-postgres==1.11.0.
+[INFO] Initializing environment for https://github.com/pre-commit/pre-commit-hooks.
+[INFO] Initializing environment for https://github.com/astral-sh/ruff-pre-commit.
+[INFO] Installing environment for https://github.com/sqlfluff/sqlfluff.
+[INFO] Once installed this environment will be reused.
+[INFO] This may take a few minutes...
+[INFO] Installing environment for https://github.com/pre-commit/pre-commit-hooks.
+[INFO] Once installed this environment will be reused.
+[INFO] This may take a few minutes...
+[INFO] Installing environment for https://github.com/astral-sh/ruff-pre-commit.
+[INFO] Once installed this environment will be reused.
+[INFO] This may take a few minutes...
+SQLFluff lint........................................(no files to check)Skipped
+check yaml...........................................(no files to check)Skipped
+fix end of files.........................................................Passed
+trim trailing whitespace.................................................Passed
+fix requirements.txt.................................(no files to check)Skipped
+ruff check...........................................(no files to check)Skipped
+ruff format..........................................(no files to check)Skipped
+[main b69991e] fix
+ 5 files changed, 1890 insertions(+), 17 deletions(-)
+ create mode 100644 pyproject.toml
+ create mode 100644 uv.lock
+ ```
