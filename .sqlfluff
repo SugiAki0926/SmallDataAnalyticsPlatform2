@@ -1,0 +1,37 @@
+[sqlfluff]
+dialect = postgres
+templater = dbt
+encoding = utf-8
+max_line_length = 120
+runaway_limit = 10
+
+[sqlfluff:templater:dbt]
+project_dir = transform/dap2
+profiles_dir = transform/dap2/profile
+profile = dap2
+target = dev
+
+[sqlfluff:indentation]
+tab_space_size = 4
+
+[sqlfluff:layout:type:comma]
+spacing_before = touch
+line_position = trailing
+
+[sqlfluff:rules:capitalisation.keywords]
+capitalisation_policy = lower
+
+[sqlfluff:rules:capitalisation.identifiers]
+extended_capitalisation_policy = lower
+
+[sqlfluff:rules:capitalisation.functions]
+capitalisation_policy = lower
+
+[sqlfluff:rules:capitalisation.literals]
+capitalisation_policy = lower
+
+[sqlfluff:rules:aliasing.table]
+aliasing = explicit
+
+[sqlfluff:rules:aliasing.column]
+aliasing = explicit

@@ -33,7 +33,9 @@ def main() -> None:
         conn.autocommit = False
         with conn.cursor() as cur:
             cur.execute("SET search_path TO lake")
-            cur.execute("SELECT last_success_at FROM generator_state WHERE id = 1 FOR UPDATE")
+            cur.execute(
+                "SELECT last_success_at FROM generator_state WHERE id = 1 FOR UPDATE"
+            )
             state = cur.fetchone()
             if state is None:
                 raise RuntimeError("generator_state の行がありません")
@@ -47,7 +49,9 @@ def main() -> None:
 
         customers, products, _categories = fetch_lookups(conn)
         if price_updates > len(products):
-            raise RuntimeError(f"PRICE_UPDATES={price_updates} が商品数 {len(products)} を超えています")
+            raise RuntimeError(
+                f"PRICE_UPDATES={price_updates} が商品数 {len(products)} を超えています"
+            )
 
         # id 順の先頭15%の顧客、先頭20%の商品だけを通常注文に使う。
         active_customers = customers[: max(1, int(len(customers) * 0.15))]
@@ -61,8 +65,19 @@ def main() -> None:
             quantity = random.randint(1, 2)
             unit_price = sample_price(current)
             ordered_at = random_ordered_at(t_prev, t_now)
-            order_id = insert_order(conn, customer_id, product_id, quantity, unit_price, ordered_at)
-            inserted.append((order_id, customer_id, product_id, quantity, round(unit_price, 2), ordered_at))
+            order_id = insert_order(
+                conn, customer_id, product_id, quantity, unit_price, ordered_at
+            )
+            inserted.append(
+                (
+                    order_id,
+                    customer_id,
+                    product_id,
+                    quantity,
+                    round(unit_price, 2),
+                    ordered_at,
+                )
+            )
 
         for _ in range(flash_sale_orders):
             customer_id = random.choice(customers)
@@ -70,16 +85,31 @@ def main() -> None:
             quantity = random.randint(1, 2)
             unit_price = current * random.uniform(0.70, 0.85)
             ordered_at = random_ordered_at(t_prev, t_now)
-            order_id = insert_order(conn, customer_id, product_id, quantity, unit_price, ordered_at)
-            inserted.append((order_id, customer_id, product_id, quantity, round(unit_price, 2), ordered_at))
+            order_id = insert_order(
+                conn, customer_id, product_id, quantity, unit_price, ordered_at
+            )
+            inserted.append(
+                (
+                    order_id,
+                    customer_id,
+                    product_id,
+                    quantity,
+                    round(unit_price, 2),
+                    ordered_at,
+                )
+            )
 
         changes = []
-        for product_id, base, current, _category_id in random.sample(products, price_updates):
+        for product_id, base, current, _category_id in random.sample(
+            products, price_updates
+        ):
             new_price = update_product_price(conn, product_id, base, t_now)
             changes.append((product_id, base, current, new_price))
 
         with conn.cursor() as cur:
-            cur.execute("UPDATE generator_state SET last_success_at = %s WHERE id = 1", (t_now,))
+            cur.execute(
+                "UPDATE generator_state SET last_success_at = %s WHERE id = 1", (t_now,)
+            )
         conn.commit()
     except Exception as exc:
         conn.rollback()

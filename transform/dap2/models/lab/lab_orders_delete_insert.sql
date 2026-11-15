@@ -7,6 +7,8 @@
     )
 }}
 
-select order_id, sales_amount
+select
+    order_id,
+    sales_amount
 from {{ ref("lab_order_batch") }}
 {% if is_incremental() %} where order_id in (2, 3) {% endif %}

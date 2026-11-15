@@ -16,6 +16,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     "dbt-core==1.12.6" \
     "dbt-postgres==1.11.0" \
     "dbt-osmosis==1.5.0" \
-    "shandy-sqlfmt[jinjafmt]==0.32.0"
+    "sqlfluff==4.5.0" \
+    "sqlfluff-templater-dbt==4.5.0" \
+    "pre-commit==4.7.0" \
+    "ruff==0.14.10"
 
 WORKDIR /workspaces/SmallDataAnalyticsPlatform2

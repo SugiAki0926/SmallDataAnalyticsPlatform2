@@ -8,5 +8,6 @@ select
     sum(orders.order_amount) / nullif(count(orders.order_id), 0) as avg_order_amount
 from {{ ref("stg_ec__customers") }} as customers
 left join
-    {{ ref("fact_orders") }} as orders on customers.customer_id = orders.customer_id
+    {{ ref("fact_orders") }} as orders
+    on customers.customer_id = orders.customer_id
 group by customers.customer_id, customers.customer_name, customers.customer_country

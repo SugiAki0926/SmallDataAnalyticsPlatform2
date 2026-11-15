@@ -26,7 +26,9 @@ def fetch_lookups(conn):
             JOIN product_catalog pc ON pc.product_id = p.id
             ORDER BY p.id
         """)
-        products = [(row[0], float(row[1]), float(row[2]), row[3]) for row in cur.fetchall()]
+        products = [
+            (row[0], float(row[1]), float(row[2]), row[3]) for row in cur.fetchall()
+        ]
 
         cur.execute("SELECT id FROM categories ORDER BY id")
         categories = [row[0] for row in cur.fetchall()]

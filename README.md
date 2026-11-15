@@ -2,7 +2,7 @@
 
 架空のECデータをもとにdbtの機能を学習するためのリポジトリです。架空のECデータとはいえ、任意の間隔で注文が発生させることができます。
 dbtでlake、staging、fact、martまでの一連の処理が学べ、加えてsnapshot、test、seed、macro、contract、docsを扱える壊して学ぶdbt学習用リポジトリです。
-codegen、dbt_utils、dbt_expectations、dbt-osmosis、pre-commitによるsqlfmt処理なども扱えるようにしています。
+codegen、dbt_utils、dbt_expectations、dbt-osmosis、pre-commitによるSQLFluff検査なども扱えるようにしています。
 
 ## 環境について
 
