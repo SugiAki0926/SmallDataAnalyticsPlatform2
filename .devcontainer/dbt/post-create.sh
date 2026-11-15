@@ -20,6 +20,6 @@ dbt deps
 cd /workspaces/SmallDataAnalyticsPlatform2
 echo "pre-commit=$(command -v pre-commit)"
 pre-commit --version
-pre-commit install
+# pre-commit install 学習用なので、precommitを動かす時以外はいったコメントアウト
 echo "sqlfluff=$(command -v sqlfluff)"
 sqlfluff --version
